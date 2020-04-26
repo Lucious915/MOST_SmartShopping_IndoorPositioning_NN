@@ -1,0 +1,29 @@
+Tensorflow API r1.12
+
+python -m tensorflow.python.tools.freeze_graph
+--input_graph=./graph.pbtxt
+--input_checkpoint=./weights_demo.ckpt
+--input_binary=False
+--output_graph=./graph.pb
+--output_node_names=softmax_tensor
+
+python -m tensorflow.python.tools.optimize_for_inference
+--input=./graph.pb
+--output=./opt_graph.pb
+--frozen_graph=True
+--input_names=input_tensor
+
+
+//執行至此
+
+python -m tensorflow.python.tools.import_pb_to_tensorboard
+--model_dir=opt_graph.pb
+--log_dir=./
+
+
+//上面重打一次
+python -m tensorflow.python.tools.freeze_graph --input_graph=./graph.pbtxt --input_checkpoint=./weights_final.ckpt --input_binary=False --output_graph=./graph.pb --output_node_names=Output_layer/Relu
+
+python -m tensorflow.python.tools.freeze_graph --input_graph=./graph.pbtxt --input_checkpoint=./weights_final.ckpt-20204 --input_binary=False --output_graph=./graph.pb --output_node_names=rnn/basic_lstm_cell/Mul_29
+
+python -m tensorflow.python.tools.optimize_for_inference --input=./graph.pb --output=./opt_graph.pb --frozen_graph=True --input_names=Input_layer/Placeholder --output_names=rnn/basic_lstm_cell/Mul_29

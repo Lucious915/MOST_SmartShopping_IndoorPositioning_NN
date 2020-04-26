@@ -1,0 +1,8 @@
+CSV
+Jmart_data_0625.csv：
+>2019.06.25於Jmart 3F第一次蒐集資料，使用OPPO手機與SONY手機，安裝26個ibeacon，26個點各4個方向皆100筆，部份資料重複與遺失已處理
+
+
+PY
+Jmart_train_0625.py
+>RNN input 26 timestep 10 output 104

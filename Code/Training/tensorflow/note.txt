@@ -1,0 +1,38 @@
+D:\銀髮族\Code\Training\tensorflow\location15_v1
+
+location25_v1 > Stand_
+location25_v2 > Quar_
+
+Training > tensorflow > model > 轉.tflite
+
+在原本training 的python檔加入
+
+def creat_network(self):
+        self.x = tf.placeholder(tf.float32, [None, 4], name='input_tensor')
+        self.y = tf.placeholder(tf.float32, [None, 4])
+
+        x = tf.reshape(self.x, [-1, 2, 2, 1])
+        x_ = (x - 35) / 70
+        conv = self.__conv_2d('Conv_layer', x, 2, 100)
+        fc_flat = x = tf.reshape(conv , [-1, 100])
+        fc = self.__fc_dense('FC_layer', fc_flat, 200)
+        self.out = self.__fc_dense('Out_layer', fc, 4)
+        out = tf.nn.softmax(self.out, name='softmax_tensor')
+  -------------------------------------------------------------------儲存graph
+        with tf.Session() as sess:
+            tf.train.write_graph(sess.graph, './model', 'graph.pbtxt')
+  -------------------------------------------------------------------
+  ckpt檔 為checkpoint , 保存當前參數值
+
+  .pntxt(模型圖) + .ckpt(參數值) => .pb(Frozen Graph)
+  
+
+
+  執行code_note.txt(final/final/DNN模型訓練..)
+  執行convert.py
+
+  NNlayout.java > import org.tensorflow.lite.Interpreter;
+
+
+  DEMO Android project
+  D:\05_Laboratory\DaTung_Indoor_Positioning\交接資料\Final\Final\賣場資訊推播\smart_space\L03_02\L03\CampusLocalization
